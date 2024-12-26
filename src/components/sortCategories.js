@@ -1,35 +1,38 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import {
+    View,
+    TouchableOpacity,
+    Text,
+    StyleSheet,
+} from "react-native";
 import {
     widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { theme } from "../themes";
 import { sortCategoryData } from "../constants";
-import { useState } from "react";
 
 export default function SortCategories() {
     const [activeSort, setActiveSort] = useState("Popular");
 
     return (
-        <View className="flex-row justify-around items-center mx-4 bg-neutral-100 rounded-full p-2 px-4 space-x-2">
+        <View style={styles.container}>
             {sortCategoryData.map((sort, index) => {
-                let isActive = sort == activeSort;
-                let activeButtonClass = isActive ? "bg-white shadow" : "";
+                const isActive = sort === activeSort;
 
                 return (
                     <TouchableOpacity
-                        onPress={() => setActiveSort(sort)}
-                        className={`p-3 ´x-4 rounded-full flex ${activeButtonClass}`}
                         key={index}
+                        style={[
+                            styles.button,
+                            isActive && styles.activeButton,
+                        ]}
+                        onPress={() => setActiveSort(sort)}
                     >
                         <Text
-                            className="font-semibold"
-                            style={{
-                                fontSize: wp(4),
-                                color: isActive
-                                    ? theme.text
-                                    : "rgba(0,0,0,0.6)",
-                            }}
+                            style={[
+                                styles.text,
+                                { color: isActive ? theme.text : "rgba(0,0,0,0.6)" },
+                            ]}
                         >
                             {sort}
                         </Text>
@@ -39,3 +42,32 @@ export default function SortCategories() {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        marginHorizontal: 16,
+        backgroundColor: "#f5f5f5", // аналог bg-neutral-100
+        borderRadius: 50,
+        padding: 8,
+        paddingHorizontal: 16,
+    },
+    button: {
+        padding: 12,
+        borderRadius: 50,
+    },
+    activeButton: {
+        backgroundColor: "#ffffff",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    text: {
+        fontWeight: "600",
+        fontSize: wp(4),
+    },
+});

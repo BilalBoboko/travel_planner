@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     Image,
     Platform,
@@ -7,70 +8,106 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-} from "react-native";
-import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { MagnifyingGlassIcon } from 'react-native-heroicons/outline'
+    StyleSheet
+} from 'react-native';
+import { MagnifyingGlassIcon } from 'react-native-heroicons/outline';
 import Categories from "../components/categories";
 import SortCategories from "../components/sortCategories";
 import Destinations from "../components/destinations";
 
-
 const ios = Platform.OS == "ios";
-const topMargin = ios ? "pt-3" : "pt-10";
+const topMargin = ios ? 3 : 10;
 
 export default function HomeScreen() {
     return (
-        <SafeAreaView className="flex-1 bg-white">
+        <SafeAreaView style={styles.container}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                className={topMargin}
+                contentContainerStyle={[styles.scrollView, { paddingTop: topMargin }]}
             >
                 {/* avatar */}
-                <View className="mx-5 flex-row justify-between itens-center mb-10">
-                    <Text
-                        style={{ fontSize: wp(7) }}
-                        className="font-bold text-neutral-700"
-                    >
-                        Let's Discover
-                    </Text>
+                <View style={styles.header}>
+                    <Text style={styles.title}>Let's Discover</Text>
                     <TouchableOpacity>
                         <Image
                             source={require("../../assets/images/avatar.png")}
-                            style={{ height: wp(12), width: wp(12) }}
+                            style={styles.avatar}
                         />
                     </TouchableOpacity>
                 </View>
 
                 {/* searchbar */}
-                <View className="mx-5 mb-4">
-                    <View className="flex-row items-center bg-neutral-100 rounded-full p-4 space-x-2 pl-6">
-                        <MagnifyingGlassIcon size={20} strokeWidth={3} color='gray'/>
+                <View style={styles.searchBarContainer}>
+                    <View style={styles.searchBar}>
+                        <MagnifyingGlassIcon size={20} strokeWidth={3} color="gray" />
                         <TextInput
-                        placeholder="Search destination"
-                        placeholderTextColor={'gray'}
-                        className='flex-1 text-base mb-1 pl-1 tracking-wider'
+                            placeholder="Search destination"
+                            placeholderTextColor={'gray'}
+                            style={styles.searchInput}
                         />
                     </View>
                 </View>
 
-                {/* categarioes */}
-                <View className='mb-4'>
-                    <Categories/>
+                {/* categories */}
+                <View style={styles.section}>
+                    <Categories />
                 </View>
 
-                {/* sort categarioes */}
-                <View className='mb-4'>
-                    <SortCategories/>
+                {/* sort categories */}
+                <View style={styles.section}>
+                    <SortCategories />
                 </View>
-                
+
                 {/* destinations */}
                 <View>
-                    <Destinations/>
+                    <Destinations />
                 </View>
             </ScrollView>
         </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    scrollView: {
+        paddingHorizontal: 20,
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 30,
+    },
+    title: {
+        fontSize: 28, // Equivalent to wp(7)
+        fontWeight: 'bold',
+        color: '#4A4A4A',
+    },
+    avatar: {
+        width: 48, // Equivalent to wp(12)
+        height: 48, // Equivalent to wp(12)
+    },
+    searchBarContainer: {
+        marginBottom: 16,
+    },
+    searchBar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F0F0F0',
+        borderRadius: 50,
+        paddingHorizontal: 24,
+        paddingVertical: 12,
+    },
+    searchInput: {
+        flex: 1,
+        fontSize: 16,
+        marginLeft: 8,
+        color: 'gray',
+    },
+    section: {
+        marginBottom: 16,
+    },
+});
